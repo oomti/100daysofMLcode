@@ -1,51 +1,55 @@
 import numpy as np
 
-inputArray = [0 for x in range(3) ]
-hiddenLayer = [0 for x in range(4) ]
-outputArray = [0 for x in range(3) ]
+inputLayer = np.zeros(3)
+hiddenLayer = np.zeros(4)
+outputLayer = np.zeros(3)
 
-deltaInputArray
-deltaHiddenLayer = [0 for x in range(4) ]
-deltaOutputArray = [0 for x in range(3) ]
+deltaInputLayer = np.zeros(3)
+deltaHiddenLayer = np.zeros(4)
+deltaOutputLayer = np.zeros(3)
 
-weightTensorInput = [[0 for x in range(3)] for y in range(4)]  
-weightTensorOutput = [[0 for x in range(4)] for y in range(3)]
 
-#The weight tensor values only depend on the previous neuron
-deltaWeightTensorInput = [[0 for x in range(3)] for y in range(4)]  
-deltaWeightTensorOutput = [[0 for x in range(4)] for y in range(3)]
+np.random.seed(15)
+weightTensorInput = np.random.rand(4,3) 
+weightTensorOutput = np.random.rand(3,4) 
 
-biasInput = [0 for x in range(4) ]
+#The weight tensor values only depend on the previous neuron by computation
+deltaWeightTensorInput = np.zeros((4,3))
+deltaWeightTensorOutput = np.zeros((3,4))
 
-targetVector = [0 for x in range(3) ]
-errorVector = [0 for x in range(3) ]
-deltaErrorVector = [0 for x in range(3) ]
-arrayOfOnes = [0 for x in range(3) ]
+biasInput = np.zeros(4)
+biasHidden = np.zeros(4)
+biasOutput = np.zeros(4)
 
+targetArray = np.zeros(3)
+errorArray = np.zeros(3)
+deltaErrorArray = np.zeros(3)
+layerOfOnes = np.ones(3)
 
 eta=0.4
 
-#This function does one whole loop the the given neural network
+#This function does one whole loop the given neural network, during training
 def iterate()
 	#Update inputs
 	#Feed hidden layer
-	forward(inputArray, hiddenLayer, weightTensorInput, biasInput)
+	forward(inputLayer, hiddenLayer, weightTensorInput, biasInput)
 	#Feed output layer
-	forward(hiddenLayer, outputArray, weightTensorOutput, biasOutput)
+	forward(hiddenLayer, outputLayer, weightTensorOutput, biasOutput)
 	#Have to create the error and it`s partial derivative at the output layer, to feed it backwards
-	errorMeasure(targetVector, errorVector, outputArray, deltaErrorVector)
+	errorMeasure(targetArray, errorArray, outputLayer, deltaErrorArray)
 	#Update last weight tensor
-	backward(hiddenLayer, outputArray, weightTensorOutput, deltaOutputArray, deltaHiddenLayer, deltaWeightTensorOutput, deltaErrorVector)
+	backward(hiddenLayer, outputLayer, weightTensorOutput, deltaOutputLayer, deltaHiddenLayer, deltaWeightTensorOutput, deltaErrorArray)
 	#Update first weight tensor
-	backward(inputArray, hiddenLayer, deltaWeightTensorInput, deltaHiddenLayer, deltaInputArray, deltaWeightTensorInput, arrayOfOnes)
+	backward(inputLayer, hiddenLayer, deltaWeightTensorInput, deltaHiddenLayer, deltaInputLayer, deltaWeightTensorInput, layerOfOnes)
 
 
 
 
-def errorMeasure(targetVector, errorVector, outputLayer, deltaErrorVector)
+
+def errorMeasure(targetArray, errorArray, outputLayer, deltaErrorArray)
 	for indexTarget, valueTarget in enumerate(outputLayer):
-		errorVector[indexTarget]=1/2 * (targetVector[indexTarget]-outputLayer[indexTarget])^2
-		deltaErrorVector[indexTarget] = (outputLayer[indexTarget] - targetVector[indexTarget] ) / 3
+		errorArray[indexTarget]=1/2 * (targetArray[indexTarget]-outputLayer[indexTarget]) ** 2
+		deltaErrorArray[indexTarget] = (outputLayer[indexTarget] - targetArray[indexTarget] ) / 3
 
 
 
@@ -63,9 +67,9 @@ def forward(inputLayer, outputLayer ,weightTensor, bias):
 		#activate
 		outputLayer[indexTarget] = activate(outputLayer[indexTarget])
 
-	return outputLayer
 
 #Backpropagation function, going from "right to left"
+
 def backward(inputLayer, outputLayer,weightTensor, deltaOutputLayer, deltaInputLayer, deltaWeightTensor, errorValue):
 	for indexTarget, valueTarget in enumerate(outputLayer):
 		# setting the nodes derivative from the previous error and the derivative of the activation function
@@ -87,4 +91,5 @@ def activate(x,deriv=False):
 	if(deriv == True):
 		return x * (1 - x)
 	return 1 / (1 + np.exp( - x))
+
 
