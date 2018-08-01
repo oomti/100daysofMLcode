@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib as mpl
 
 inputLayer = np.zeros(3)
 hiddenLayer = np.zeros(4)
@@ -27,9 +28,37 @@ deltaErrorArray = np.zeros(3)
 layerOfOnes = np.ones(3)
 
 eta=0.4
+error=[]
+
+
+def plotError():
+	mpl.pyplot.imshow(image)
+	
+
+
+def train():
+	for i in range(0,10000):
+		j=np.random.randint(0,1500)
+		iterate(inputs[j],target[j])
+		error.append(sum(errorArray)/3)
+		scanNetwork(image, xArray, yArray)
+		plotError()
+		
+
+
+
+def scanNetwork(image, xArray, yArray):
+	for x_index, x in range(xArray):
+		for y_index, y in range(yArray):
+			testNetwork((x , y , 0))
+			image[x_index, y_index , 0]=outputLayer[0]
+			image[x_index, y_index , 1]=outputLayer[1]
+			image[x_index, y_index , 2]=outputLayer[2]
+
+
 
 #This function does one whole loop the given neural network, during training
-def iterate()
+def trainNetwork(inputLayer,targetArray):
 	#Update inputs
 	#Feed hidden layer
 	forward(inputLayer, hiddenLayer, weightTensorInput, biasInput)
@@ -42,11 +71,20 @@ def iterate()
 	#Update first weight tensor
 	backward(inputLayer, hiddenLayer, deltaWeightTensorInput, deltaHiddenLayer, deltaInputLayer, deltaWeightTensorInput, layerOfOnes)
 
+def testNetwork(inputLayer):
+	#Update inputs
+	#Feed hidden layer
+	forward(inputLayer, hiddenLayer, weightTensorInput, biasInput)
+	#Feed output layer
+	forward(hiddenLayer, outputLayer, weightTensorOutput, biasOutput)
+	#Have to create the error and it`s partial derivative at the output layer, to feed it backwards
+	#errorMeasure(targetArray, errorArray, outputLayer, deltaErrorArray)
 
 
 
 
-def errorMeasure(targetArray, errorArray, outputLayer, deltaErrorArray)
+
+def errorMeasure(targetArray, errorArray, outputLayer, deltaErrorArray):
 	for indexTarget, valueTarget in enumerate(outputLayer):
 		errorArray[indexTarget]=1/2 * (targetArray[indexTarget]-outputLayer[indexTarget]) ** 2
 		deltaErrorArray[indexTarget] = (outputLayer[indexTarget] - targetArray[indexTarget] ) / 3
@@ -91,5 +129,4 @@ def activate(x,deriv=False):
 	if(deriv == True):
 		return x * (1 - x)
 	return 1 / (1 + np.exp( - x))
-
 
