@@ -26,6 +26,15 @@ class Layer:
 		self.deltaWeights=np.outer(self.deltaNeurons, inputVector)
 		self.weights-=self.learningRate*self.deltaWeights
 
+	def get_weights(self):
+		return self.weights
+
+	def get_neurons(self):
+		return self.neurons
+
+	def get_bias(self):
+		return self.bias
+
 
 class Network:
 	def __init__(self, layers):
@@ -42,7 +51,7 @@ class Network:
 		self.inputVector=inputVector
 		for index, layer in enumerate(self.network):
 			if index==0:
-				self.network[0].sum(inputVector)
+				self.network[0].neurons=inputVector
 			else:
 				self.network[index].sum(self.network[index-1].neurons)
 
@@ -61,9 +70,10 @@ class Network:
 				self.network[index].backpropagate(self.network[index-1].neurons, errorVector)
 
 	def error(self, targetVector):
+		return targetVector-self.network[self.depth-1].neurons
+
+	def get_Weights(self, layer, )
+		return self.network[layer].get_weights()
 
 
-
-
-		
 
