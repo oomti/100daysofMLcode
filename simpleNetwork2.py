@@ -3,7 +3,7 @@ import matplotlib as mpl
 
 class Layer:
 	learningRate=0.4
-	def __init__(self,inputSize, outputSize, randomSeed):
+	def __init__(self,inputSize, outputSize, randomSeed=15):
 		self.neurons=np.zeros(outputSize)
 		self.weights=np.random.rand(outputSize, inputSize)
 		self.deltaWeights=np.zeros((outputSize, inputSize))
@@ -37,15 +37,15 @@ class Layer:
 
 
 class Network:
-	def __init__(self, layers):
+	def __init__(self, layers, randomSeed=15):
 		self.inputVector=np.zeros(layers[0])
 		self.depth=len(layers)
 		self.network=[]
 		for index, size in enumerate(layers):
 			if index==0:
-				self.network.append(Layer(0,size,15))
+				self.network.append(Layer(0,size,randomSeed))
 			else:
-				self.network.append(Layer(layers[index-1],size,15))
+				self.network.append(Layer(layers[index-1],size,randomSeed))
 
 	def forwardPropagate(self, inputVector):
 		self.inputVector=inputVector
@@ -63,17 +63,19 @@ class Network:
 			if index==self.depth-1:
 				self.network[index].backpropagate(self.network[index-1].neurons, self.error(targetVector))
 			elif index==0:
-				errorVector=np.sum( self.network[index+1].deltaWeights*self.network[index+1].weights , 1 )
-				self.network[index].backpropagate(self.inputVector, errorVector)
+				errorVector=np.sum( self.network[index+1].deltaWeights*self.network[index+1].weights , 0 )
+				#The below line is not necessary(causes bug, as I was planning to start with weights, but decided to ignore the weights of the first layer)
+				#self.network[index].backpropagate(self.inputVector, errorVector)
 			else:
-				errorVector=np.sum( self.network[index+1].deltaWeights*self.network[index+1].weights , 1 )
+				errorVector=np.sum( self.network[index+1].deltaWeights*self.network[index+1].weights , 0 )
 				self.network[index].backpropagate(self.network[index-1].neurons, errorVector)
+
+	def trainEpoch(self, inputVector, targetVector):
+		self.forwardPropagate(inputVector)
+		self.backwardPropagate(targetVector)
 
 	def error(self, targetVector):
 		return targetVector-self.network[self.depth-1].neurons
 
-	def get_Weights(self, layer, )
+	def get_Weights(self, layer, ):
 		return self.network[layer].get_weights()
-
-
-
