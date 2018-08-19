@@ -73,7 +73,7 @@ class Network:
 	def trainEpoch(self, inputVector, targetVector):
 		self.forwardPropagate(inputVector)
 		self.backwardPropagate(targetVector)
-
+	#This returns the derivative of the error for each according output neuron.
 	def error(self, targetVector):
 		return targetVector-self.network[self.depth-1].neurons
 
