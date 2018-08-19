@@ -83,7 +83,7 @@ def testNetwork(inputLayer):
 
 
 
-
+#The error loss function
 def errorMeasure(targetArray, errorArray, outputLayer, deltaErrorArray):
 	for indexTarget, valueTarget in enumerate(outputLayer):
 		errorArray[indexTarget]=1/2 * (targetArray[indexTarget]-outputLayer[indexTarget]) ** 2
