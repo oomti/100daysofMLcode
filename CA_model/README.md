@@ -1,4 +1,4 @@
-# Wealth distribution model
+https://raw.githubusercontent.com/oomti/100daysofMLcode/master/CA_model/result_example.png# Wealth distribution model
 
 ### The aim of the notebook is to represent a stochastic cell automata model for explaining the quasy exponential (Pareto) nature of wealth distribution of world. 
 
@@ -42,9 +42,9 @@
   
  * The probability distribution of the exchange direction is slightly skewed toward the higher value participant, depending on the difference of wealths
 
-![alt-text][Family]
+![alt-text][Solution]
 
-[Family]: https://apps.urban.org/features/wealth-inequality-charts/img/WealthPercentiles.jpg "Family wealth distribution"
+[Solution]: https://raw.githubusercontent.com/oomti/100daysofMLcode/master/CA_model/result_example.png "simulation result example"
 
 
 <p>The results indicate there is a similarity with the above mentioned cases.</p>
