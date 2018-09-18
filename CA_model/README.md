@@ -1,4 +1,4 @@
-https://raw.githubusercontent.com/oomti/100daysofMLcode/master/CA_model/result_example.png# Wealth distribution model
+# Wealth distribution model
 
 ### The aim of the notebook is to represent a stochastic cell automata model for explaining the quasy exponential (Pareto) nature of wealth distribution of world. 
 
