@@ -40,7 +40,8 @@
  
  * The maximum amount of exchange value is limited by a percentage of the total value of lower value participant.
   
- * The probability distribution of the exchange direction is slightly skewed toward the higher value participant, depending on the difference of wealths
+ * The probability distribution of the exchange direction is slightly skewed toward the higher value participant, depending on the difference of wealths 
+  ``` Note: the model works out without the probabilistic skew as well ```
 
 ![alt-text][Solution]
 
